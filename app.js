@@ -1,10 +1,11 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+//var favicon = require('serve-favicon');
+//var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongoose = require('./libs/mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -20,7 +21,7 @@ app.set('view engine', 'jade');
 //app.use(logger('dev'));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,6 +34,22 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
+
+
+//mongoose.connect(app.config.get('mongoose:uri'));
+
+//var dataSchema = mongoose.Schema({
+//    cpu_date: String,
+//    user: {
+//        first_name: String,
+//        last_name: String,
+//    }
+//});
+
+var dataModel = mongoose.model('data', {name: String, cpu: String, mem: String});
+data = new dataModel({name: 'const', user: {'first_name': 'lobanov'}});
+data.save();
+
 
 // error handlers
 

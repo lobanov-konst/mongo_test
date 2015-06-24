@@ -5,7 +5,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mongoose = require('./libs/mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -34,21 +33,6 @@ app.use(function (req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
-//mongoose.connect(app.config.get('mongoose:uri'));
-
-//var dataSchema = mongoose.Schema({
-//    cpu_date: String,
-//    user: {
-//        first_name: String,
-//        last_name: String,
-//    }
-//});
-
-var dataModel = mongoose.model('data', {name: String, cpu: String, mem: String});
-data = new dataModel({name: 'const', user: {'first_name': 'lobanov'}});
-data.save();
 
 
 // error handlers

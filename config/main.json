@@ -4,6 +4,6 @@
     "uri": "mongodb://localhost/teradek_db"
   },
   "measure": {
-    "timeout": 30000 /* measuring every 30 seconds */
+    "timeout": 30000
   }
 }

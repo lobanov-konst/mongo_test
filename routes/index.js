@@ -13,12 +13,13 @@ router.get('/summary', function (req, res, next) {
             {
                 "$group": {
                     "_id": {
-                        "interval": {
-                            "$subtract": [
-                                {"$second": "$time"},
-                                {"$mod": [{"$second": "$time"}, 24 * 60 * 60]}
-                            ]
-                        }
+                        "dayOfYear": {"$dayOfYear": "$time"}
+                        //"interval": {
+                        //    "$subtract": [
+                        //        {"$second": "$time"},
+                        //        {"$mod": [{"$second": "$time"}, 24 * 60 * 60]}
+                        //    ]
+                        //}
                     },
                     "max_time": {"$max": "$time"},
                     "min_time": {"$min": "$time"},

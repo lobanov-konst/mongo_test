@@ -13,7 +13,7 @@ router.get('/summary', function (req, res, next) {
             {
                 "$group": {
                     "_id": {
-                        "dayOfYear": {"$dayOfYear": "$time"}
+                        "hour": {"$hour": "$time"}
                         //"interval": {
                         //    "$subtract": [
                         //        {"$second": "$time"},
@@ -30,15 +30,18 @@ router.get('/summary', function (req, res, next) {
                     "min_mem": {"$min": "$mem"},
                     "avg_mem": {"$avg": "$mem"}
                 }
+            },
+            {
+                "$sort": {"max_time": 1}
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "interval": {"start": "$max_time", "end": "$min_time"},
+                    "cpu": {"max": "$max_cpu", "min": "$min_cpu", "avg": "$avg_cpu"},
+                    "mem": {"max": "$max_mem", "min": "$min_mem", "avg": "$avg_mem"}
+                }
             }
-            , {
-            "$project": {
-                "_id": 0,
-                "interval": {"start": "$max_time", "end": "$min_time"},
-                "cpu": {"max": "$max_cpu", "min": "$min_cpu", "avg": "$avg_cpu"},
-                "mem": {"max": "$max_mem", "min": "$min_mem", "avg": "$avg_mem"}
-            }
-        }
         ],
         function (err, result) {
             res.send(result);

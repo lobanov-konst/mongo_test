@@ -8,6 +8,11 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/summary', function (req, res, next) {
+    var _date = new Date();
+    _date.setDate(_date.getDate() - 1);
+    mongoose.model('measure').find({"time": {"$lt": _date}}, function (err, res) {
+        console.log(res)
+    });
     mongoose.model('measure').aggregate(
         [
             {

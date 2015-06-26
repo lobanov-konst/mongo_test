@@ -17,6 +17,12 @@ function getCPUUsage(type, cpu) {
 
 var measureModel = mongoose.model('measure', {time: Date, cpu: Number, mem: Number});
 function run(timeout) {
+
+    var _date = new Date();
+    _date.setDate(_date.getDate() - 1);
+    mongoose.model('measure').remove({"time": {"$lt": _date}}, function (err, res) {
+    });
+
     var memUsage = os.freemem() / os.totalmem() * 100,
         cpuUsage = null,
         cpu = os.cpus(),
